@@ -1,0 +1,12 @@
+.container {
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+header {
+  padding: 20px;
+  background-color: #afafaf;
+  display: flex;
+  column-gap: 50px;
+  justify-content: center;
+}
