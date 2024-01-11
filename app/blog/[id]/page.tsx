@@ -1,3 +1,14 @@
+import { Metadata } from "next";
+
+async function getData(id: string) {
+  const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+    next: {
+      revalidate: 60,
+    },
+  });
+
+  return response.json();
+}
 
 type Props = {
   params: {
@@ -5,19 +16,25 @@ type Props = {
   };
 };
 
-export function generateMetadata({ params: { id }}: Props) {
-  return {
-    title: id
-  }
+export async function generateMetadata({
+  params: { id },
+}: Props): Promise<Metadata> {
+  const post = await getData(id)
+  console.log(post)
 
+  return {
+    title: post.title,
+  };
 }
 
-function Post({ params: { id }}: Props) {
+export default async function Post({ params: { id } }: Props) {
+  const post = await getData(id)
+
   return (
     <div>
-      <h1>Post page {id}</h1>
+      <h1>{post.title}</h1>
+      <p>{post.body}</p>
     </div>
   );
 }
 
-export default Post;
